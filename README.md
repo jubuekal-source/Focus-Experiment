@@ -16,7 +16,7 @@ Designed for workshops, coaching sessions, and educational settings with partici
 
 Open the link below on any device – mobile or desktop. No installation needed, runs entirely in the browser.
 
-**▶ Play it:** [your GitHub Pages URL here]
+**▶ Play it:https://jubuekal-source.github.io/Focus-Experiment/
 
 ## Background
 
