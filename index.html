@@ -573,6 +573,10 @@ function updateHUD(){
 // ═══════════════════ POINTER ═══════════════════
 function ptrX(cx){const r=canvas.getBoundingClientRect();return(cx-r.left)*(W/r.width);}
 canvas.addEventListener('mousemove',e=>{if(state==='playing')PL.tx=ptrX(e.clientX)-PL.w/2;});
+canvas.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    if(state==='playing')PL.tx=ptrX(e.touches[0].clientX)-PL.w/2;
+},{passive:false});
 canvas.addEventListener('touchmove',e=>{
     e.preventDefault();
     if(state==='playing')PL.tx=ptrX(e.touches[0].clientX)-PL.w/2;
