@@ -199,9 +199,14 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 let W, H;
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function resize() {
+    W = canvas.width  = window.innerWidth;
+    // Use visualViewport if available - accounts for mobile browser chrome (address bar etc)
+    H = canvas.height = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+}
 resize();
 window.addEventListener('resize', resize);
+if(window.visualViewport) window.visualViewport.addEventListener('resize', resize);
 
 // ═══════════════════ STATE ═══════════════════
 let state = 'idle';
@@ -215,7 +220,8 @@ let gorillaSpawned = false;
 const PL = { x:0, y:0, w:0, h:0, tx:0 };
 function initPlayer() {
     PL.w = Math.min(140, W*0.38); PL.h = 40;
-    PL.y = H - PL.h - 18;
+    // Extra bottom margin to ensure tray is visible above any browser UI
+    PL.y = H - PL.h - 48;
     PL.x = W/2 - PL.w/2; PL.tx = PL.x;
 }
 
@@ -457,6 +463,9 @@ function drawBgFigures() {
 
 // ═══════════════════ PLAYER ═══════════════════
 function drawPlayer(){
+    // Recalculate position every frame so it always stays visible
+    PL.w = Math.min(140, W*0.38); PL.h = 40;
+    PL.y = H - PL.h - 48;
     PL.x+=(PL.tx-PL.x)*0.18;
     PL.x=Math.max(0,Math.min(W-PL.w,PL.x));
 
@@ -688,9 +697,12 @@ document.getElementById('backBtn').addEventListener('click',()=>{
     ctx.clearRect(0,0,W,H);drawKitchen();drawPlayer();
 });
 
-// Initial idle draw
-resize();initPlayer();
-ctx.clearRect(0,0,W,H);drawKitchen();drawPlayer();
+// Initial idle draw - use requestAnimationFrame to ensure canvas
+// is fully laid out before we calculate player position
+requestAnimationFrame(()=>{
+    resize();initPlayer();
+    ctx.clearRect(0,0,W,H);drawKitchen();drawPlayer();
+});
 </script>
 </body>
 </html>
