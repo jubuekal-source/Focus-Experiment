@@ -55,8 +55,32 @@
         .btn:active { transform: scale(0.97); }
         .btn-accent { background: var(--accent); color: #fff; box-shadow: 0 0 30px rgba(255,107,53,.45); }
         .btn-ghost  { background: rgba(255,255,255,0.09); color: var(--text); border: 1px solid rgba(255,255,255,0.2); }
-        .btn-reveal { background: rgba(255,200,80,0.15); color: #ffd166; border: 1.5px solid rgba(255,200,80,0.4); font-size: 0.95rem; padding: 0.75rem 1.8rem; }
+        .btn-reveal { background: rgba(255,200,80,0.15); color: #ffd166; border: 1.5px solid rgba(255,200,80,0.4); font-size: 0.95rem; padding: 0.75rem 1.8rem;
+            animation: btnGlow 1.5s ease-in-out infinite; }
         .btn-reveal:hover { background: rgba(255,200,80,0.25); }
+        @keyframes btnGlow {
+            0%,100% { box-shadow: 0 0 8px rgba(255,209,102,0.3), 0 0 20px rgba(255,209,102,0.15); transform: scale(1); }
+            50% { box-shadow: 0 0 20px rgba(255,209,102,0.6), 0 0 40px rgba(255,209,102,0.3), 0 0 60px rgba(255,209,102,0.15); transform: scale(1.04); }
+        }
+
+        /* Vibrating + glowing gorilla headline */
+        .gorilla-headline {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.6rem, 5vw, 2.2rem);
+            font-weight: 800;
+            color: #ffd166;
+            margin: 0.5rem 0 0.2rem;
+            text-shadow: 0 0 20px rgba(255,209,102,0.6), 0 0 40px rgba(255,209,102,0.3);
+            animation: headlineVibe 0.4s ease-in-out 3;
+        }
+        @keyframes headlineVibe {
+            0%   { transform: translateX(0); }
+            20%  { transform: translateX(-3px) rotate(-0.6deg); }
+            40%  { transform: translateX(3px)  rotate(0.6deg); }
+            60%  { transform: translateX(-2px) rotate(-0.3deg); }
+            80%  { transform: translateX(2px)  rotate(0.3deg); }
+            100% { transform: translateX(0); }
+        }
 
         /* End screen */
         #finalScoreDisplay { font-family: 'Syne', sans-serif; font-size: clamp(3.5rem, 12vw, 5rem); font-weight: 800; color: var(--good); line-height: 1; margin: 0.2rem 0; }
@@ -82,38 +106,7 @@
         .score-detail { font-size: clamp(0.82rem, 2.2vw, 0.9rem); color: var(--muted); margin-bottom: 0.5rem; }
         .score-detail span { font-weight: 700; }
 
-        /* Big pulsing question */
-        .big-question {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.2rem, 8vw, 3.2rem);
-            font-weight: 800;
-            color: #fff;
-            margin: 0.9rem 0 0.2rem;
-            max-width: 420px;
-            line-height: 1.1;
-            text-shadow: 0 0 30px rgba(255,209,102,0.6), 0 0 60px rgba(255,209,102,0.3);
-            animation: qvibe 0.45s ease-in-out infinite;
-        }
-        @keyframes qvibe {
-            0%   { transform: translateX(0); }
-            20%  { transform: translateX(-3px) rotate(-0.8deg); }
-            40%  { transform: translateX(3px)  rotate(0.8deg); }
-            60%  { transform: translateX(-2px) rotate(-0.4deg); }
-            80%  { transform: translateX(2px)  rotate(0.4deg); }
-            100% { transform: translateX(0); }
-        }
-        .question-mark {
-            display: inline-block;
-            color: #ffd166;
-            font-size: 1.3em;
-            line-height: 1;
-            animation: qpulse 0.9s ease-in-out infinite;
-            text-shadow: 0 0 20px #ffd166, 0 0 40px rgba(255,209,102,0.8);
-        }
-        @keyframes qpulse {
-            0%,100% { transform: scale(1) rotate(-5deg); }
-            50%      { transform: scale(1.35) rotate(5deg); }
-        }
+        /* Gorilla headline with vibration + glow */
         .sub-question { color: #e8d5b0; font-size: clamp(0.9rem, 2.5vw, 1rem); margin-bottom: 0.9rem; font-weight: 500; }
 
         /* floating confetti pieces */
@@ -165,34 +158,36 @@
             <canvas id="confettiCanvas" style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);pointer-events:none;width:220px;height:160px;" width="220" height="160"></canvas>
         </div>
         <p class="score-detail" style="margin-top:0.2rem;">
-            <span id="finalPizzas" style="color:var(--good);">0 Pizzen</span> gefangen &nbsp;·&nbsp;
-            <span id="finalChilis" style="color:#e63946;">0 Chilis</span> erwischt
+            <span id="finalPizzas" style="color:var(--good);">🍕 0 Pizzen</span> gefangen &nbsp;·&nbsp;
+            <span id="finalChilis" style="color:#e63946;">🌶️ 0 Chilis</span> erwischt
         </p>
 
-        <!-- Big prominent question -->
-        <p class="big-question">Ist dir etwas aufgefallen&thinsp;<span class="question-mark">?</span></p>
+        <!-- Big prominent question with glow -->
+        <p class="gorilla-headline">Hast du ihn gesehen?</p>
         <p class="sub-question">Denk einen Moment nach – dann klick.</p>
 
-        <!-- Reveal trigger -->
+        <!-- Reveal trigger – glowing button -->
         <button class="btn btn-reveal" id="revealBtn">
             👀 Auflösung anzeigen
         </button>
 
-        <!-- Hidden reveal -->
+        <!-- Hidden reveal – Marco's text -->
         <div id="revealSection">
-            <div class="reveal-box">
-                <strong style="color:#ffd166;">Hast du den Gorilla gesehen? 🦍</strong>
-                <p>Mitten durchs Restaurant ist ein Gorilla spaziert – und die meisten bemerken ihn gar nicht. Das ist kein Zufall und auch kein Fehler deinerseits.</p>
+            <div class="reveal-box" style="border-color: rgba(255,209,102,0.4);">
+                <strong style="color:#ffd166; display:block; font-family:'Syne',sans-serif; font-size:1.1rem; margin-bottom:0.4rem;">🦍 Ein Gorilla!</strong>
+                <p>Mitten durchs Restaurant ist ein großer Gorilla spaziert – und die meisten bemerken ihn gar nicht.</p>
+                <p style="margin-top:0.4rem;">Das ist kein Zufall und auch kein Fehler deinerseits.</p>
+                <p style="margin-top:0.4rem;">Wenn du zu den Menschen gehörst, die ihn nicht wahrnahmen: Keine Sorge, das ist völlig normal. Dein Gehirn hat den Gorilla einfach …</p>
+                <p style="margin-top:0.4rem; color:#e63946; font-weight:700; font-family:'Syne',sans-serif; font-size:1rem;">❌ gelöscht.</p>
             </div>
-            <div class="reveal-box">
-                <strong style="color:#a8dadc;">Warum hast du ihn vielleicht nicht gesehen?</strong>
-                <p>Das erklären dir Alex & Sarah gleich. 👇</p>
+            <div class="reveal-box" style="border-color: rgba(168,218,220,0.4);">
+                <p style="color:#a8dadc; font-weight:600;">Warum das so ist und was das mit deinem Alltag zu tun hat, erfährst du noch, nach einem weiteren kleinen Experiment.</p>
             </div>
         </div>
 
         <div class="end-btns">
             <button class="btn btn-accent" id="restartBtn" style="display:none;">🔄 Nochmal spielen</button>
-            <button class="btn btn-ghost" id="backBtn">↩ Zurück zum Start</button>
+            <button class="btn btn-ghost" id="backBtn" style="display:none;">↩ Zurück zum Start</button>
         </div>
     </div>
 </div>
@@ -627,6 +622,7 @@ function startGame(){
     // Reset end screen state
     document.getElementById('revealSection').style.display='none';
     document.getElementById('restartBtn').style.display='none';
+    document.getElementById('backBtn').style.display='none';
     document.getElementById('revealBtn').style.display='inline-flex';
     // Clear confetti
     const cc2=document.getElementById('confettiCanvas');
@@ -657,8 +653,8 @@ function endGame(){
     fsd.classList.remove('pop');
     void fsd.offsetWidth; // reflow to restart animation
     fsd.classList.add('pop');
-    document.getElementById('finalPizzas').textContent = pizzas + ' Pizzen';
-    document.getElementById('finalChilis').textContent = chilis + ' Chilis';
+    document.getElementById('finalPizzas').textContent = '🍕 ' + pizzas + ' Pizzen';
+    document.getElementById('finalChilis').textContent = '🌶️ ' + chilis + ' Chilis';
 
     // Confetti burst
     const cc = document.getElementById('confettiCanvas');
@@ -695,6 +691,7 @@ document.getElementById('revealBtn').addEventListener('click',()=>{
     document.getElementById('revealSection').style.display='block';
     document.getElementById('revealBtn').style.display='none';
     document.getElementById('restartBtn').style.display='inline-flex';
+    document.getElementById('backBtn').style.display='inline-flex';
 });
 
 document.getElementById('startBtn').addEventListener('click',startGame);
